@@ -1,0 +1,9 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TemplatePlugin:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TemplatePlugin_jar</output-path>
+    <root id="archive" name="TemplatePlugin.jar">
+      <element id="module-output" name="ChairEco" />
+      <element id="extracted-dir" path="$USER_HOME$/Downloads/spigot-api-1.15.2-R0.1-20200322.090814-72.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

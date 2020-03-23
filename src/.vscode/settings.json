@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\aren_\\IdeaProjects\\ChairEco\\spigot-api-1.15.2-R0.1-20200322.090814-72.jar"
+    ]
+}
