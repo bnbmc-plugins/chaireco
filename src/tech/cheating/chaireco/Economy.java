@@ -1,12 +1,38 @@
 package tech.cheating.chaireco;
 
+import org.bukkit.OfflinePlayer;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import tech.cheating.chaireco.commands.BalanceCommand;
+import tech.cheating.chaireco.commands.PayCommand;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Economy extends JavaPlugin {
 
     public Database db = new Database(this);
+    public EconomyAPI api = null;
+
+
+    public void initPlayer(OfflinePlayer player) {
+        int starterMoney = getConfig().getInt("starter-money");
+        try {
+            PreparedStatement s = db.getConnection().prepareStatement("INSERT INTO balances (player, balance) VALUES (?,0)");
+            s.setString(1, player.getUniqueId().toString());
+            int resultSet = s.executeUpdate();
+            if (starterMoney > 0) {
+                if (api != null) {
+                    api.deposit(player, starterMoney*100, "Initial Deposit");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onDisable() {
@@ -16,9 +42,19 @@ public class Economy extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        getServer().getServicesManager().register(EconomyAPI.class, api, this, ServicePriority.Normal);
+        getConfig().addDefault("starter-money", 2000);
+        getConfig().options().copyDefaults(true);
         getLogger().info("Causing hyper-inflation... ");
+        getServer().getPluginManager().registerEvents(new EventHandler(this, db), this);
+        getCommand("balance").setExecutor(new BalanceCommand(this));
+        getCommand("pay").setExecutor(new PayCommand(this));
+
+
         try {
             db.connect("chaireco");
+            db.setup();
+            api = new EconomyAPI(this, db);
         } catch (SQLException e) {
             getLogger().severe("failed to connect to database: " + e.getMessage());
         }

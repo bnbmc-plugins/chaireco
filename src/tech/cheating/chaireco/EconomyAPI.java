@@ -10,11 +10,9 @@ import java.sql.SQLException;
 
 public class EconomyAPI {
 
-    private Economy plugin;
     private Database db;
 
     public EconomyAPI(Economy eco, Database dbs) {
-        plugin = eco;
         db = dbs;
     }
 

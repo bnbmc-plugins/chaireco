@@ -3,11 +3,12 @@ package tech.cheating.chaireco;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Database {
 
     private Connection connection = null;
-    private Economy plugin = null;
+    private Economy plugin;
 
 
     public Database(Economy eco) {
@@ -33,9 +34,10 @@ public class Database {
         return connection;
     }
 
-    public void setup() {
-        connection.executeUpdate("CREATE TABLE IF NOT EXISTS balances(player TEXT PRIMARY KEY, balance INTEGER)");
-        connection.executeUpdate("CREATE TABLE IF NOT EXISTS history(id INTEGER PRIMARY KEY AUTOINCREMENT, player TEXT, value INTEGER, reason TEXT)");
+    public void setup() throws SQLException {
+        Statement s = connection.createStatement();
+        s.executeUpdate("CREATE TABLE IF NOT EXISTS balances(player TEXT PRIMARY KEY, balance INTEGER)");
+        s.executeUpdate("CREATE TABLE IF NOT EXISTS history(id INTEGER PRIMARY KEY AUTOINCREMENT, player TEXT, value INTEGER, reason TEXT)");
     }
 
 }
