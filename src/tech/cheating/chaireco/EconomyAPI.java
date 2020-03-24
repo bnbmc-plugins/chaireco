@@ -16,6 +16,10 @@ public class EconomyAPI {
         db = dbs;
     }
 
+    public static String getDollarValue(int cents) {
+        return "$" + (cents / 100) + "." + String.format("%02d", cents % 100);
+    }
+
     public int getBalance(OfflinePlayer player) throws SQLException {
         String id = player.getUniqueId().toString();
         PreparedStatement statement = db.getConnection().prepareStatement("SELECT balance FROM balances WHERE player=?");
