@@ -17,14 +17,16 @@ public class EconomyAPI {
     }
 
     public boolean withdraw(OfflinePlayer player, int amount, String reason) {
-
+        if (amount < 0) return false;
     }
 
     public boolean deposit(OfflinePlayer player, int amount, String reason) {
-
+        if (amount < 0) return false;
     }
 
     public boolean transfer(OfflinePlayer from, OfflinePlayer to, int amount, String reason) {
-
+        if (this.withdraw(from, amount, reason)) {
+            this.deposit(to, amount, reason);
+        }
     }
 }

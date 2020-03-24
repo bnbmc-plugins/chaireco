@@ -2,3 +2,11 @@ name: ChairEco
 version: 1.0
 author: RedChair
 main: tech.cheating.chaireco.Economy
+
+commands:
+  printMoney:
+    description: Deposit money from thin air into a player's account
+    usage: /printMoney [player] [amount]
+  ripMoney:
+    description: Remove money from a player's account
+    usage: /ripMoney

@@ -29,8 +29,13 @@ public class Database {
         }
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
+
     public void setup() {
-        
+        connection.executeUpdate("CREATE TABLE IF NOT EXISTS balances(player TEXT PRIMARY KEY, balance INTEGER)");
+        connection.executeUpdate("CREATE TABLE IF NOT EXISTS history(id INTEGER PRIMARY KEY AUTOINCREMENT, player TEXT, value INTEGER, reason TEXT)");
     }
 
 }
