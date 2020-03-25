@@ -10,6 +10,7 @@ import org.bukkit.entity.Player;
 import tech.cheating.chaireco.Economy;
 import tech.cheating.chaireco.EconomyAPI;
 import tech.cheating.chaireco.exceptions.EconomyBalanceTooLowException;
+import tech.cheating.chaireco.exceptions.EconomyInvalidTxAmount;
 
 import java.sql.SQLException;
 import java.util.Arrays;
@@ -24,7 +25,7 @@ public class PayCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof ConsoleCommandSender) {
-            commandSender.sendMessage("Sorry, use /eco deposit to print money.");
+            commandSender.sendMessage(ChatColor.RED + "Sorry, use /eco deposit to print money.");
             return true;
         }
 
@@ -32,17 +33,21 @@ public class PayCommand implements CommandExecutor {
         if (strings.length > 1) {
             String reason = strings.length > 2 ? String.join(" ", Arrays.asList(strings).subList(2, strings.length)) : "No reason provided";
             Player otherPlayer = plugin.getServer().getPlayer(strings[0]);
+            if (otherPlayer == null) {
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RED + "Could not find that player");
+                return true;
+            }
 
             int amount;
             try {
-                amount = Integer.parseInt(strings[1]) * 100;
+                amount = EconomyAPI.getCentValue(strings[1]);
             } catch (NumberFormatException e) {
-                commandSender.sendMessage(ChatColor.RED + "\"" + strings[1] + "\" is not a valid dollar value.");
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RED + "\"" + strings[1] + "\" is not a valid dollar value.");
                 return true;
             }
 
             try {
-                if (otherPlayer != null && amount > 0) {
+                if (amount > 0) {
                     plugin.api.transfer(player, otherPlayer, amount, reason);
 
                     commandSender.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
@@ -51,7 +56,7 @@ public class PayCommand implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
 
                     otherPlayer.sendMessage(ChatColor.GREEN + "----- TRANSFER IN -----");
-                    otherPlayer.sendMessage(ChatColor.GREEN + player.getDisplayName() + ChatColor.RESET + " » " + ChatColor.GOLD + EconomyAPI.getDollarValue(amount));
+                    otherPlayer.sendMessage(ChatColor.GOLD + player.getDisplayName() + ChatColor.RESET + " » " + ChatColor.GREEN + EconomyAPI.getDollarValue(amount));
                     if (strings.length > 2) otherPlayer.sendMessage(ChatColor.AQUA + "\"" + reason + "\"");
                     otherPlayer.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
                 }
@@ -62,6 +67,15 @@ public class PayCommand implements CommandExecutor {
                     otherPlayer.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
                     otherPlayer.sendMessage(ChatColor.RED + EconomyAPI.getDollarValue(amount) + ChatColor.RESET + " » " + ChatColor.GOLD + otherPlayer.getDisplayName() + ChatColor.RED + " (FAILED)");
                     otherPlayer.sendMessage(ChatColor.RED + "Insufficient funds in your account.");
+                    otherPlayer.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            } catch (EconomyInvalidTxAmount e) {
+                try {
+                    otherPlayer.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
+                    otherPlayer.sendMessage(ChatColor.RED + EconomyAPI.getDollarValue(amount) + ChatColor.RESET + " » " + ChatColor.GOLD + otherPlayer.getDisplayName() + ChatColor.RED + " (FAILED)");
+                    otherPlayer.sendMessage(ChatColor.RED + "Invalid amount to transfer.");
                     otherPlayer.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
                 } catch (SQLException ex) {
                     ex.printStackTrace();

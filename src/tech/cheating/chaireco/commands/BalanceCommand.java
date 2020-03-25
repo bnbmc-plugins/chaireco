@@ -21,7 +21,7 @@ public class BalanceCommand implements CommandExecutor {
 
     private void sendPlayerBalance(CommandSender commandSender, OfflinePlayer player) {
         try {
-            commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
+            commandSender.sendMessage(ChatColor.GREEN + player.getName() + "'s balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -33,14 +33,14 @@ public class BalanceCommand implements CommandExecutor {
             if (commandSender instanceof Player) {
                 sendPlayerBalance(commandSender, (OfflinePlayer) commandSender);
             } else {
-                commandSender.sendMessage("Your balance is unavailable");
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RED + "Your balance is unavailable");
             }
         } else {
             OfflinePlayer player = plugin.getServer().getPlayer(strings[0]);
             if (player != null) {
                 sendPlayerBalance(commandSender, player);
             } else {
-                commandSender.sendMessage("Could not find that player");
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR! " + ChatColor.RED + "Could not find that player");
             }
         }
         return true;

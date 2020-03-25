@@ -4,6 +4,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 import tech.cheating.chaireco.commands.BalanceCommand;
+import tech.cheating.chaireco.commands.EcoCommand;
 import tech.cheating.chaireco.commands.PayCommand;
 
 import java.sql.PreparedStatement;
@@ -30,7 +31,7 @@ public class Economy extends JavaPlugin {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //Fail silently
         }
     }
 
@@ -49,7 +50,7 @@ public class Economy extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new EventHandler(this, db), this);
         getCommand("balance").setExecutor(new BalanceCommand(this));
         getCommand("pay").setExecutor(new PayCommand(this));
-
+        getCommand("eco").setExecutor(new EcoCommand(this));
 
         try {
             db.connect("chaireco");

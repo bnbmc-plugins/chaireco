@@ -1,5 +1,6 @@
 package tech.cheating.chaireco;
 
+import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
 import tech.cheating.chaireco.exceptions.EconomyBalanceTooLowException;
 import tech.cheating.chaireco.exceptions.EconomyInvalidTxAmount;
@@ -18,6 +19,10 @@ public class EconomyAPI {
 
     public static String getDollarValue(int cents) {
         return "$" + (cents / 100) + "." + String.format("%02d", cents % 100);
+    }
+
+    public static int getCentValue(String dollarValue) throws NumberFormatException {
+        return (int) (Float.parseFloat(dollarValue) * 100);
     }
 
     public int getBalance(OfflinePlayer player) throws SQLException {
@@ -39,7 +44,7 @@ public class EconomyAPI {
     }
 
     public void withdraw(OfflinePlayer player, int amount, String reason) throws EconomyBalanceTooLowException, SQLException, EconomyInvalidTxAmount {
-        if (amount < 0) throw new EconomyInvalidTxAmount(amount + " is less than zero");
+        if (amount <= 0) throw new EconomyInvalidTxAmount(amount + " needs to be greater than zero");
 
         int balance = getBalance(player);
         if (balance < amount) throw new EconomyBalanceTooLowException("Balance for " + player.getName() + " is too low");
@@ -54,7 +59,7 @@ public class EconomyAPI {
     }
 
     public void deposit(OfflinePlayer player, int amount, String reason) throws EconomyInvalidTxAmount, SQLException {
-        if (amount < 0) throw new EconomyInvalidTxAmount(amount + " is less than zero");
+        if (amount <= 0) throw new EconomyInvalidTxAmount(amount + " needs to be greater than zero");
 
         int balance = getBalance(player);
         int newBalance = balance + amount;
