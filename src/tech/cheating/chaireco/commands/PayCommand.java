@@ -47,19 +47,17 @@ public class PayCommand implements CommandExecutor {
             }
 
             try {
-                if (amount > 0) {
-                    plugin.api.transfer(player, otherPlayer, amount, reason);
+                plugin.api.transfer(player, otherPlayer, amount, reason);
 
-                    commandSender.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
-                    commandSender.sendMessage(ChatColor.GREEN + EconomyAPI.getDollarValue(amount) + ChatColor.RESET + " » " + ChatColor.GOLD + otherPlayer.getDisplayName());
-                    if (strings.length > 2) commandSender.sendMessage(ChatColor.AQUA + "\"" + reason + "\"");
-                    commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
+                commandSender.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
+                commandSender.sendMessage(ChatColor.GREEN + EconomyAPI.getDollarValue(amount) + ChatColor.RESET + " » " + ChatColor.GOLD + otherPlayer.getDisplayName());
+                if (strings.length > 2) commandSender.sendMessage(ChatColor.AQUA + "\"" + reason + "\"");
+                commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
 
-                    otherPlayer.sendMessage(ChatColor.GREEN + "----- TRANSFER IN -----");
-                    otherPlayer.sendMessage(ChatColor.GOLD + player.getDisplayName() + ChatColor.RESET + " » " + ChatColor.GREEN + EconomyAPI.getDollarValue(amount));
-                    if (strings.length > 2) otherPlayer.sendMessage(ChatColor.AQUA + "\"" + reason + "\"");
-                    otherPlayer.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
-                }
+                otherPlayer.sendMessage(ChatColor.GREEN + "----- TRANSFER IN -----");
+                otherPlayer.sendMessage(ChatColor.GOLD + player.getDisplayName() + ChatColor.RESET + " » " + ChatColor.GREEN + EconomyAPI.getDollarValue(amount));
+                if (strings.length > 2) otherPlayer.sendMessage(ChatColor.AQUA + "\"" + reason + "\"");
+                otherPlayer.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
             } catch (SQLException e) {
                 e.printStackTrace();
             } catch (EconomyBalanceTooLowException e) {
