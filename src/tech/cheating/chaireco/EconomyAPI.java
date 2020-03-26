@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EconomyAPI {
+public class EconomyAPI implements IEconomy {
 
     private Database db;
 
