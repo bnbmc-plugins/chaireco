@@ -7,7 +7,19 @@ commands:
   balance:
     description: Tells you how much money
     usage: /balance (playername)
+    aliases:
+      - bal
+      - money
 
   pay:
     description: Allows you to pay someone money
     usage: /pay otherplayer amountofmoney (reason)
+    aliases:
+      - transfer
+      - sendmoney
+
+  eco:
+    description: Manipulate the economy
+    usage: /eco {deposit|withdraw|set} playername amountofmoney
+    aliases:
+      - economy
