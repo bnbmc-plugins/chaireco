@@ -42,7 +42,6 @@ public class Economy extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        getServer().getServicesManager().register(EconomyAPI.class, api, this, ServicePriority.Normal);
         getConfig().addDefault("starter-money", 2000);
         getConfig().options().copyDefaults(true);
         getLogger().info("Causing hyper-inflation... ");
@@ -55,6 +54,7 @@ public class Economy extends JavaPlugin {
             db.connect("chaireco");
             db.setup();
             api = new EconomyAPI(this, db);
+            getServer().getServicesManager().register(IEconomy.class, api, this, ServicePriority.Normal);
         } catch (SQLException e) {
             getLogger().severe("failed to connect to database: " + e.getMessage());
         }
