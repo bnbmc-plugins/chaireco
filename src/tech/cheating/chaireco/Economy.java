@@ -6,6 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import tech.cheating.chaireco.commands.BalanceCommand;
 import tech.cheating.chaireco.commands.EcoCommand;
 import tech.cheating.chaireco.commands.PayCommand;
+import tech.cheating.chaireco.commands.TransactionHistoryCommand;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -50,6 +51,7 @@ public class Economy extends JavaPlugin {
         getCommand("balance").setExecutor(new BalanceCommand(this));
         getCommand("pay").setExecutor(new PayCommand(this));
         getCommand("eco").setExecutor(new EcoCommand(this));
+        getCommand("transactionhistory").setExecutor(new TransactionHistoryCommand(db));
 
         try {
             db.connect("chaireco");

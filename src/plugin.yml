@@ -23,3 +23,10 @@ commands:
     usage: /eco {deposit|withdraw|set} playername amountofmoney
     aliases:
       - economy
+
+  transactionhistory:
+    description: See what transactions you've performed recently
+    usage: /transactionhistory [page]
+    aliases:
+      - txhistory
+      - ecohistory

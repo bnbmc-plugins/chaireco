@@ -8,7 +8,7 @@ import java.sql.SQLException;
 
 public interface IEconomy {
     static String getDollarValue(int cents) {
-        return "$" + (cents / 100) + "." + String.format("%02d", cents % 100);
+        return (cents < 0 ? "-" : "") + "$" + Math.abs(cents / 100) + "." + String.format("%02d", cents % 100);
     }
 
     static int getCentValue(String dollarValue) throws NumberFormatException {
