@@ -30,3 +30,7 @@ commands:
     aliases:
       - txhistory
       - ecohistory
+
+  baltop:
+    description: See the top players
+    usage: /baltop [page]

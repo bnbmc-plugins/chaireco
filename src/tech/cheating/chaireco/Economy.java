@@ -3,10 +3,7 @@ package tech.cheating.chaireco;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
-import tech.cheating.chaireco.commands.BalanceCommand;
-import tech.cheating.chaireco.commands.EcoCommand;
-import tech.cheating.chaireco.commands.PayCommand;
-import tech.cheating.chaireco.commands.TransactionHistoryCommand;
+import tech.cheating.chaireco.commands.*;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -52,6 +49,7 @@ public class Economy extends JavaPlugin {
         getCommand("pay").setExecutor(new PayCommand(this));
         getCommand("eco").setExecutor(new EcoCommand(this));
         getCommand("transactionhistory").setExecutor(new TransactionHistoryCommand(db));
+        getCommand("baltop").setExecutor(new BalTopCommand(db));
 
         try {
             db.connect("chaireco");
