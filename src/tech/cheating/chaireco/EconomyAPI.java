@@ -99,6 +99,7 @@ public class EconomyAPI implements IEconomy {
             db.getConnection().createStatement().execute("RELEASE SAVEPOINT transfer");
         } catch (Exception e) {
             db.getConnection().createStatement().execute("ROLLBACK TO SAVEPOINT transfer");
+            db.getConnection().createStatement().execute("RELEASE SAVEPOINT transfer");
             throw e;
         }
     }

@@ -65,7 +65,7 @@ public class PayCommand implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
                     commandSender.sendMessage(ChatColor.RED + EconomyAPI.getDollarValue(amount) + ChatColor.RESET + " » " + ChatColor.GOLD + otherPlayer.getDisplayName() + ChatColor.RED + " (FAILED)");
                     commandSender.sendMessage(ChatColor.RED + "Insufficient funds in your account.");
-                    commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
+                    commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -74,7 +74,7 @@ public class PayCommand implements CommandExecutor {
                     commandSender.sendMessage(ChatColor.GREEN + "----- TRANSFER OUT -----");
                     commandSender.sendMessage(ChatColor.RED + EconomyAPI.getDollarValue(amount) + ChatColor.RESET + " » " + ChatColor.GOLD + otherPlayer.getDisplayName() + ChatColor.RED + " (FAILED)");
                     commandSender.sendMessage(ChatColor.RED + "Invalid amount to transfer.");
-                    commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(otherPlayer)));
+                    commandSender.sendMessage(ChatColor.GREEN + "Your balance: " + EconomyAPI.getDollarValue(plugin.api.getBalance(player)));
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
